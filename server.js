@@ -1,41 +1,9 @@
-import express from "express";
+import express from "express"; // Importa o módulo Express para criar a aplicação web.
+import routes from "./src/routes/postsRoutes.js";
 
-const posts = [
-  { 
-    id: 1,
-    descricao: "Uma foto teste",
-    imagem: "https://placecats.com/millie/300/150",
-  },
-  {
-    id: 2,
-    descricao: "Gato fofo dormindo",
-    imagem: "https://placekitten.com/400/200",
-  },
-  {
-    id: 3,
-    descricao: "Paisagem incrível",
-    imagem: "https://source.unsplash.com/random",
-  },
-];
+const app = express(); // Cria uma instância do Express, iniciando a aplicação.
+routes(app)
 
-const app = express();
-app.use(express.json());
-
-app.listen(3000, () => {
+app.listen(3000, () => { // Inicia o servidor na porta 3000 e exibe uma mensagem no console quando o servidor estiver ouvindo.
   console.log("Servidor escutando...");
 });
-
-app.get("/posts", (req, res) => {
-  res.status(200).json(posts);
-});
-
-function buscarPostPorID(id) {
-  return posts.findIndex((post) => {
-    return post.id === Number(id)
-  })
-}
-
-app.get("/posts/:id", (req, res) => {
-  const index = buscarPostPorID(req.params.id)
-  res.status(200).json(posts[index]);
-})
